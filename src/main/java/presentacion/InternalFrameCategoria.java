@@ -4,7 +4,6 @@
  */
 package presentacion;
 
-
 import javax.swing.JOptionPane;
 import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionEvent;
@@ -346,30 +345,30 @@ public class InternalFrameCategoria extends javax.swing.JInternalFrame {
 
     private void btnDesactivarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDesactivarActionPerformed
         // TODO add your handling code here:
-        if(this.id.length()> 0){         
-           if(JOptionPane.showConfirmDialog(this,"¿Desea desactivar el registro: "+ nombreAnt+ " ?","Desactivar",JOptionPane.YES_NO_CANCEL_OPTION)== 0){
-               String res = this.control.desactivar(Integer.parseInt(id));
-               if(res.equals("OK")){
-                   this.listar("");
-               }else{
+        if (this.id.length() > 0) {
+            if (JOptionPane.showConfirmDialog(this, "¿Desea desactivar el registro: " + nombreAnt + " ?", "Desactivar", JOptionPane.YES_NO_CANCEL_OPTION) == 0) {
+                String res = this.control.desactivar(Integer.parseInt(id));
+                if (res.equals("OK")) {
+                    this.listar("");
+                } else {
                     this.mensajeError(res);
-               }
-                 
-           }
+                }
+
+            }
         }
     }//GEN-LAST:event_btnDesactivarActionPerformed
 
     private void btnActivarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActivarActionPerformed
         // TODO add your handling code here:
-        if(this.id.length()> 0){         
-           if(JOptionPane.showConfirmDialog(this,"¿Desea activar el registro: "+ nombreAnt+ " ?","Activar",JOptionPane.YES_NO_CANCEL_OPTION)== 0){
-               String res = this.control.activar(Integer.parseInt(id));
-                if(res.equals("OK")){
-                   this.listar("");
-               }else{
+        if (this.id.length() > 0) {
+            if (JOptionPane.showConfirmDialog(this, "¿Desea activar el registro: " + nombreAnt + " ?", "Activar", JOptionPane.YES_NO_CANCEL_OPTION) == 0) {
+                String res = this.control.activar(Integer.parseInt(id));
+                if (res.equals("OK")) {
+                    this.listar("");
+                } else {
                     this.mensajeError(res);
-               }
-           }
+                }
+            }
         }
     }//GEN-LAST:event_btnActivarActionPerformed
 
@@ -402,14 +401,13 @@ public class InternalFrameCategoria extends javax.swing.JInternalFrame {
         selectionModel.addListSelectionListener(new ListSelectionListener() {
             @Override
             public void valueChanged(ListSelectionEvent e) {
-
-                boolean filaSeleccionada = !selectionModel.isSelectionEmpty() && tablaCategoria.getSelectedRowCount() == 1;
+                if (!e.getValueIsAdjusting()) {
+                          boolean filaSeleccionada = !selectionModel.isSelectionEmpty() && tablaCategoria.getSelectedRowCount() == 1;
 
                 btnEditar.setEnabled(filaSeleccionada);
                 btnDesactivar.setEnabled(false);
                 btnActivar.setEnabled(false);
-                
-                
+
                 if (filaSeleccionada) {
                     int filaSeleccionadaIndex = tablaCategoria.getSelectedRow();
                     nombreAnt = String.valueOf(tablaCategoria.getValueAt(filaSeleccionadaIndex, 1));
@@ -420,13 +418,15 @@ public class InternalFrameCategoria extends javax.swing.JInternalFrame {
                     String estado = String.valueOf(tablaCategoria.getValueAt(filaSeleccionadaIndex, 3));
                     if (estado.equals("Activo")) {
                         btnDesactivar.setEnabled(true);
-                        
+
                     }
                     if (estado.equals("Inactivo")) {
                         btnActivar.setEnabled(true);
                     }
 
                 }
+                }
+          
 
             }
         });

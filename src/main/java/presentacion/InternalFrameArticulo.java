@@ -4,7 +4,6 @@
  */
 package presentacion;
 
-
 import entidades.Categoria;
 import java.awt.Image;
 import java.io.File;
@@ -35,18 +34,16 @@ public class InternalFrameArticulo extends javax.swing.JInternalFrame {
     private final ArticuloControl control;
     private String accion;
     private String id, nombreAnt;
-    private String imagen= "";
+    private String imagen = "";
     private String imagenAnt;
     private String rutaOrigen;
     private String rutaDestino;
-    private final String DIRECTORIO="src/main/java/files/articulos/";
-   
-    
+    private final String DIRECTORIO = "src/main/java/files/articulos/";
+
     private int totalPorPagina = 10;
     private int numPagina = 1;
     private boolean primeraCarga = true;
     private int totalRegistros;
-
 
     public InternalFrameArticulo() {
         initComponents();
@@ -57,8 +54,10 @@ public class InternalFrameArticulo extends javax.swing.JInternalFrame {
         this.btnEditar.setEnabled(false);
         this.btnActivar.setEnabled(false);
         this.btnDesactivar.setEnabled(false);
+        this.paginar();
         textBuscar.requestFocus();
-        this.listar("");
+        this.listar("",false);
+        this.primeraCarga =false;
         this.cargarCategorias();
         this.listenerEdit();
 
@@ -85,6 +84,10 @@ public class InternalFrameArticulo extends javax.swing.JInternalFrame {
         btnEditar = new javax.swing.JButton();
         btnActivar = new javax.swing.JButton();
         btnDesactivar = new javax.swing.JButton();
+        jLabel9 = new javax.swing.JLabel();
+        cboNumPagina = new javax.swing.JComboBox<>();
+        jLabel10 = new javax.swing.JLabel();
+        cboTotalPorPagina = new javax.swing.JComboBox<>();
         jPanel2 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         textNombre = new javax.swing.JTextField();
@@ -164,10 +167,35 @@ public class InternalFrameArticulo extends javax.swing.JInternalFrame {
             }
         });
 
+        jLabel9.setText("# Página");
+
+        cboNumPagina.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                cboNumPaginaItemStateChanged(evt);
+            }
+        });
+
+        jLabel10.setText("Total");
+
+        cboTotalPorPagina.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "2", "10", "20", "30", "40", "50", "100" }));
+        cboTotalPorPagina.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cboTotalPorPaginaActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPane1)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addComponent(btnActivar, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btnDesactivar, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(labelTotalRegistros, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel1)
@@ -179,15 +207,16 @@ public class InternalFrameArticulo extends javax.swing.JInternalFrame {
                 .addComponent(btnAccion, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btnEditar, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addComponent(jScrollPane1)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addComponent(btnActivar, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(39, Short.MAX_VALUE))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addComponent(jLabel9)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(btnDesactivar, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(labelTotalRegistros, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addComponent(cboNumPagina, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(104, 104, 104)
+                .addComponent(jLabel10)
+                .addGap(29, 29, 29)
+                .addComponent(cboTotalPorPagina, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -200,13 +229,19 @@ public class InternalFrameArticulo extends javax.swing.JInternalFrame {
                     .addComponent(btnAccion)
                     .addComponent(btnEditar))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 449, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 413, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel9)
+                    .addComponent(cboNumPagina, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel10)
+                    .addComponent(cboTotalPorPagina, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnActivar)
                     .addComponent(btnDesactivar)
                     .addComponent(labelTotalRegistros))
-                .addContainerGap())
+                .addGap(17, 17, 17))
         );
 
         tabCrud.addTab("Listado", jPanel1);
@@ -346,7 +381,9 @@ public class InternalFrameArticulo extends javax.swing.JInternalFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(tabCrud, javax.swing.GroupLayout.DEFAULT_SIZE, 597, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(tabCrud, javax.swing.GroupLayout.DEFAULT_SIZE, 610, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         pack();
@@ -354,7 +391,7 @@ public class InternalFrameArticulo extends javax.swing.JInternalFrame {
 
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
         // TODO add your handling code here:  
-        this.listar(textBuscar.getText());
+        this.listar(textBuscar.getText(),false);
     }//GEN-LAST:event_btnBuscarActionPerformed
 
     private void btnAccionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAccionActionPerformed
@@ -363,7 +400,7 @@ public class InternalFrameArticulo extends javax.swing.JInternalFrame {
         this.tabCrud.setEnabledAt(1, true);
         this.tabCrud.setSelectedIndex(1);
         this.accion = "NUEVO";
-        
+
         this.limpiarFormulario();
 
     }//GEN-LAST:event_btnAccionActionPerformed
@@ -380,8 +417,8 @@ public class InternalFrameArticulo extends javax.swing.JInternalFrame {
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
         // TODO add your handling code here:
-        
-           if (this.textCodigo.getText().length() == 0) {
+
+        if (this.textCodigo.getText().length() == 0) {
             this.mensajeWarning("El campo Codigo es obligatorio.");
             this.textCodigo.requestFocus();
             return;
@@ -397,14 +434,14 @@ public class InternalFrameArticulo extends javax.swing.JInternalFrame {
             this.textNombre.requestFocus();
             return;
         }
-        
-        if (this.textStock.getText().length()==0){
-            JOptionPane.showMessageDialog(this, "Debes ingresar un stock del artículo, es obligatorio.","Sistema", JOptionPane.WARNING_MESSAGE);
+
+        if (this.textStock.getText().length() == 0) {
+            JOptionPane.showMessageDialog(this, "Debes ingresar un stock del artículo, es obligatorio.", "Sistema", JOptionPane.WARNING_MESSAGE);
             this.textStock.requestFocus();
             return;
         }
-    if (this.textPrecio.getText().length()==0){
-            JOptionPane.showMessageDialog(this, "Debes ingresar un precio de venta, es obligatorio.","Sistema", JOptionPane.WARNING_MESSAGE);
+        if (this.textPrecio.getText().length() == 0) {
+            JOptionPane.showMessageDialog(this, "Debes ingresar un precio de venta, es obligatorio.", "Sistema", JOptionPane.WARNING_MESSAGE);
             textPrecio.requestFocus();
             return;
         }
@@ -416,35 +453,35 @@ public class InternalFrameArticulo extends javax.swing.JInternalFrame {
 
         String res = "";
         if (this.accion.equals("EDITAR")) {
-            String imagenActual="";
-            if (this.imagen.equals("")){
-                imagenActual=this.imagenAnt;
-            }else{
-                imagenActual=this.imagen;
+            String imagenActual = "";
+            if (this.imagen.equals("")) {
+                imagenActual = this.imagenAnt;
+            } else {
+                imagenActual = this.imagen;
             }
-              Categoria seleccionado = (Categoria)cboCategoria.getSelectedItem();
-           res = this.control.actualizar(
-                   Integer.parseInt(id),textNombre.getText(),this.nombreAnt,seleccionado.getId(),textCodigo.getText(),Double.parseDouble(textPrecio.getText()),Integer.parseInt(textStock.getText()), textDescripcion.getText(),imagenActual);
+            Categoria seleccionado = (Categoria) cboCategoria.getSelectedItem();
+            res = this.control.actualizar(
+                    Integer.parseInt(id), textNombre.getText(), this.nombreAnt, seleccionado.getId(), textCodigo.getText(), Double.parseDouble(textPrecio.getText()), Integer.parseInt(textStock.getText()), textDescripcion.getText(), imagenActual);
             this.tabCrud.setEnabledAt(1, false);
             this.tabCrud.setEnabledAt(0, true);
             this.tabCrud.setSelectedIndex(0);
         } else {
-             
-              Categoria seleccionado = (Categoria)cboCategoria.getSelectedItem();
+
+            Categoria seleccionado = (Categoria) cboCategoria.getSelectedItem();
             res = this.control.insertar(
-                    seleccionado.getId(),textCodigo.getText(),textNombre.getText(),Double.parseDouble(textPrecio.getValue().toString()),Integer.parseInt(this.textStock.getText()), textDescripcion.getText(),this.imagen);
+                    seleccionado.getId(), textCodigo.getText(), textNombre.getText(), Double.parseDouble(textPrecio.getValue().toString()), Integer.parseInt(this.textStock.getText()), textDescripcion.getText(), this.imagen);
         }
 
         if (res.equals("OK")) {
-            
-            if (!this.imagen.equals("")){
-                    this.subirImagenes();
-                }
-            
+
+            if (!this.imagen.equals("")) {
+                this.subirImagenes();
+            }
+
             this.mensajeSuccess("Registrado correctamente.");
             this.limpiarFormulario();
             this.tabla.clearSelection();
-            this.listar("");
+            this.listar("",false);
         } else {
             this.mensajeError(res);
         }
@@ -462,7 +499,6 @@ public class InternalFrameArticulo extends javax.swing.JInternalFrame {
             this.tabCrud.setSelectedIndex(1);
             this.accion = "EDITAR";
             this.btnGuardar.setText("Editar");
-          
 
         }
 
@@ -470,38 +506,38 @@ public class InternalFrameArticulo extends javax.swing.JInternalFrame {
 
     private void btnDesactivarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDesactivarActionPerformed
         // TODO add your handling code here:
-        if(this.id.length()> 0){         
-           if(JOptionPane.showConfirmDialog(this,"¿Desea desactivar el registro: "+ nombreAnt+ " ?","Desactivar",JOptionPane.YES_NO_CANCEL_OPTION)== 0){
-               String res = this.control.desactivar(Integer.parseInt(id));
-               if(res.equals("OK")){
-                   this.listar("");
-               }else{
+        if (this.id.length() > 0) {
+            if (JOptionPane.showConfirmDialog(this, "¿Desea desactivar el registro: " + nombreAnt + " ?", "Desactivar", JOptionPane.YES_NO_CANCEL_OPTION) == 0) {
+                String res = this.control.desactivar(Integer.parseInt(id));
+                if (res.equals("OK")) {
+                    this.listar("",false);
+                } else {
                     this.mensajeError(res);
-               }
-                 
-           }
+                }
+
+            }
         }
     }//GEN-LAST:event_btnDesactivarActionPerformed
 
     private void btnActivarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActivarActionPerformed
         // TODO add your handling code here:
-        if(this.id.length()> 0){         
-           if(JOptionPane.showConfirmDialog(this,"¿Desea activar el registro: "+ nombreAnt+ " ?","Activar",JOptionPane.YES_NO_CANCEL_OPTION)== 0){
-               String res = this.control.activar(Integer.parseInt(id));
-                if(res.equals("OK")){
-                   this.listar("");
-               }else{
+        if (this.id.length() > 0) {
+            if (JOptionPane.showConfirmDialog(this, "¿Desea activar el registro: " + nombreAnt + " ?", "Activar", JOptionPane.YES_NO_CANCEL_OPTION) == 0) {
+                String res = this.control.activar(Integer.parseInt(id));
+                if (res.equals("OK")) {
+                    this.listar("",false);
+                } else {
                     this.mensajeError(res);
-               }
-           }
+                }
+            }
         }
     }//GEN-LAST:event_btnActivarActionPerformed
-    private void subirImagenes(){
-        File origen=new File(this.rutaOrigen);
-        File destino=new File(this.rutaDestino);
+    private void subirImagenes() {
+        File origen = new File(this.rutaOrigen);
+        File destino = new File(this.rutaDestino);
         try {
-            InputStream in= new FileInputStream(origen);
-            OutputStream out=new FileOutputStream(destino);
+            InputStream in = new FileInputStream(origen);
+            OutputStream out = new FileOutputStream(destino);
             byte[] buf = new byte[1024];
             int len;
             while ((len = in.read(buf)) > 0) {
@@ -513,23 +549,37 @@ public class InternalFrameArticulo extends javax.swing.JInternalFrame {
             JOptionPane.showMessageDialog(this, e.getMessage());
         }
     }
-    
+
     private void btnSubirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSubirActionPerformed
         // TODO add your handling code here:
-         JFileChooser file = new JFileChooser();
-        int estado=file.showOpenDialog(this);
-        if (estado==JFileChooser.APPROVE_OPTION){
-            this.imagen=file.getSelectedFile().getName();
-            this.rutaOrigen=file.getSelectedFile().getAbsolutePath();
-            this.rutaDestino=this.DIRECTORIO + this.imagen;
-            
-            ImageIcon im=new ImageIcon(this.rutaOrigen);
-            Icon icono=new ImageIcon(im.getImage().getScaledInstance(lblImagen.getWidth(),lblImagen.getHeight(),Image.SCALE_DEFAULT));
+        JFileChooser file = new JFileChooser();
+        int estado = file.showOpenDialog(this);
+        if (estado == JFileChooser.APPROVE_OPTION) {
+            this.imagen = file.getSelectedFile().getName();
+            this.rutaOrigen = file.getSelectedFile().getAbsolutePath();
+            this.rutaDestino = this.DIRECTORIO + this.imagen;
+
+            ImageIcon im = new ImageIcon(this.rutaOrigen);
+            Icon icono = new ImageIcon(im.getImage().getScaledInstance(lblImagen.getWidth(), lblImagen.getHeight(), Image.SCALE_DEFAULT));
             lblImagen.setText(null);
             lblImagen.setIcon(icono);
             lblImagen.repaint();
         }
     }//GEN-LAST:event_btnSubirActionPerformed
+
+    private void cboTotalPorPaginaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboTotalPorPaginaActionPerformed
+        // TODO add your handling code here:
+        this.paginar();
+    }//GEN-LAST:event_cboTotalPorPaginaActionPerformed
+
+    private void cboNumPaginaItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cboNumPaginaItemStateChanged
+        // TODO add your handling code here:
+       
+        if ( evt.getStateChange() == java.awt.event.ItemEvent.SELECTED &&this.primeraCarga==false){
+             System.out.println("Selectttt");
+            this.listar("",true);
+        }
+    }//GEN-LAST:event_cboNumPaginaItemStateChanged
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -542,7 +592,10 @@ public class InternalFrameArticulo extends javax.swing.JInternalFrame {
     private javax.swing.JButton btnGuardar;
     private javax.swing.JButton btnSubir;
     private javax.swing.JComboBox<Categoria> cboCategoria;
+    private javax.swing.JComboBox<String> cboNumPagina;
+    private javax.swing.JComboBox<String> cboTotalPorPagina;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -550,6 +603,7 @@ public class InternalFrameArticulo extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
@@ -571,85 +625,104 @@ public class InternalFrameArticulo extends javax.swing.JInternalFrame {
         selectionModel.addListSelectionListener(new ListSelectionListener() {
             @Override
             public void valueChanged(ListSelectionEvent e) {
+                if (!e.getValueIsAdjusting()) {
+                    boolean filaSeleccionada = !selectionModel.isSelectionEmpty() && tabla.getSelectedRowCount() == 1;
 
-                boolean filaSeleccionada = !selectionModel.isSelectionEmpty() && tabla.getSelectedRowCount() == 1;
+                    btnEditar.setEnabled(filaSeleccionada);
+                    btnDesactivar.setEnabled(false);
+                    btnActivar.setEnabled(false);
+                  
+                    if (filaSeleccionada) {
+                        int filaSeleccionadaIndex = tabla.getSelectedRow();
 
-                btnEditar.setEnabled(filaSeleccionada);
-                btnDesactivar.setEnabled(false);
-                btnActivar.setEnabled(false);
-                
-                
-                if (filaSeleccionada) {
-                    int filaSeleccionadaIndex = tabla.getSelectedRow();
-                   /* nombreAnt = String.valueOf(tabla.getValueAt(filaSeleccionadaIndex, 1));
-                    String descripcion = String.valueOf(tabla.getValueAt(filaSeleccionadaIndex, 2));
-                    id = String.valueOf(tabla.getValueAt(filaSeleccionadaIndex, 0));
-                    textNombre.setText(nombreAnt);
-                    textDescripcion.setText(descripcion);
-                    String estado = String.valueOf(tabla.getValueAt(filaSeleccionadaIndex, 3));
-*/
-                   
-             id = String.valueOf(tabla.getValueAt(filaSeleccionadaIndex, 0));
-            int categoriaId=Integer.parseInt(String.valueOf(tabla.getValueAt(filaSeleccionadaIndex,1)));
-            String categoriaNombre=String.valueOf(tabla.getValueAt(filaSeleccionadaIndex,2));
-            String codigo=String.valueOf(tabla.getValueAt(filaSeleccionadaIndex,3));
-            String nombre= String.valueOf(tabla.getValueAt(filaSeleccionadaIndex,4));
-            nombreAnt= String.valueOf(tabla.getValueAt(filaSeleccionadaIndex,4));
-            String precio= String.valueOf(tabla.getValueAt(filaSeleccionadaIndex,5));
-            String stock= String.valueOf(tabla.getValueAt(filaSeleccionadaIndex,6));
-            String descripcion= String.valueOf(tabla.getValueAt(filaSeleccionadaIndex,7));
-            imagenAnt=String.valueOf(tabla.getValueAt(filaSeleccionadaIndex,8));
-             String estado = String.valueOf(tabla.getValueAt(filaSeleccionadaIndex, 9));
-            
-            
-            Categoria seleccionado=new Categoria(categoriaId,categoriaNombre);
-           
-            
-            cboCategoria.setSelectedItem(seleccionado);
-            textCodigo.setText(codigo);
-            textNombre.setText(nombre);
-            textPrecio.setText(precio);
-            textStock.setText(stock);            
-            textDescripcion.setText(descripcion);
-            if(! imagenAnt.isEmpty()) {
-                   ImageIcon im=new ImageIcon(DIRECTORIO+imagenAnt);
-            Icon icono=new ImageIcon(im.getImage().getScaledInstance(lblImagen.getWidth(),lblImagen.getHeight(),Image.SCALE_DEFAULT));
-            lblImagen.setIcon(icono);
-            lblImagen.repaint();
-            }
-         
-            
-                    if (estado.equals("Activo")) {
-                        btnDesactivar.setEnabled(true);
-                        
+                        id = String.valueOf(tabla.getValueAt(filaSeleccionadaIndex, 0));
+                        int categoriaId = Integer.parseInt(String.valueOf(tabla.getValueAt(filaSeleccionadaIndex, 1)));
+                        String categoriaNombre = String.valueOf(tabla.getValueAt(filaSeleccionadaIndex, 2));
+                        String codigo = String.valueOf(tabla.getValueAt(filaSeleccionadaIndex, 3));
+                        String nombre = String.valueOf(tabla.getValueAt(filaSeleccionadaIndex, 4));
+                        nombreAnt = String.valueOf(tabla.getValueAt(filaSeleccionadaIndex, 4));
+                        String precio = String.valueOf(tabla.getValueAt(filaSeleccionadaIndex, 5));
+                        String stock = String.valueOf(tabla.getValueAt(filaSeleccionadaIndex, 6));
+                        String descripcion = String.valueOf(tabla.getValueAt(filaSeleccionadaIndex, 7));
+                        imagenAnt = String.valueOf(tabla.getValueAt(filaSeleccionadaIndex, 8));
+                        String estado = String.valueOf(tabla.getValueAt(filaSeleccionadaIndex, 9));
+
+                        Categoria seleccionado = new Categoria(categoriaId, categoriaNombre);
+
+                        cboCategoria.setSelectedItem(seleccionado);
+                        textCodigo.setText(codigo);
+                        textNombre.setText(nombre);
+                        textPrecio.setText(precio);
+                        textStock.setText(stock);
+                        textDescripcion.setText(descripcion);
+                        if (!imagenAnt.isEmpty()) {
+                            ImageIcon im = new ImageIcon(DIRECTORIO + imagenAnt);
+                            Icon icono = new ImageIcon(im.getImage().getScaledInstance(lblImagen.getWidth(), lblImagen.getHeight(), Image.SCALE_DEFAULT));
+                            lblImagen.setIcon(icono);
+                            lblImagen.repaint();
+                        }
+
+                        if (estado.equals("Activo")) {
+                            btnDesactivar.setEnabled(true);
+
+                        }
+                        if (estado.equals("Inactivo")) {
+                            btnActivar.setEnabled(true);
+                        }
+
                     }
-                    if (estado.equals("Inactivo")) {
-                        btnActivar.setEnabled(true);
-                    }
-
                 }
 
             }
         });
 
     }
-   private void ocultarColumnas(){
+
+    private void ocultarColumnas() {
         this.tabla.getColumnModel().getColumn(1).setMaxWidth(0);
         this.tabla.getColumnModel().getColumn(1).setMinWidth(0);
         this.tabla.getTableHeader().getColumnModel().getColumn(1).setMaxWidth(0);
         this.tabla.getTableHeader().getColumnModel().getColumn(1).setMinWidth(0);
     }
-    private void listar(String text) {
-        this.tabla.setModel(this.control.listar(text,totalPorPagina,numPagina));
+    private void paginar(){
+        int totalPaginas;
+        
+        this.totalRegistros=this.control.total();
+        this.totalPorPagina=Integer.parseInt((String)cboTotalPorPagina.getSelectedItem());
+        totalPaginas=(int)(Math.ceil((double)this.totalRegistros/this.totalPorPagina));
+        if (totalPaginas==0){
+            totalPaginas=1;
+        }
+        cboNumPagina.removeAllItems();
+        
+        for (int i = 1; i <= totalPaginas; i++) {
+            cboNumPagina.addItem(Integer.toString(i));
+        }
+        cboNumPagina.setSelectedIndex(0);
+    }
+    private void listar(String text, boolean paginar) {
+        
+         this.totalPorPagina=Integer.parseInt((String)cboTotalPorPagina.getSelectedItem());
+        if ((String)cboNumPagina.getSelectedItem()!=null){
+            this.numPagina=Integer.parseInt((String)cboNumPagina.getSelectedItem());
+        }
+        
+        if (paginar==true){
+            tabla.setModel(this.control.listar(text,this.totalPorPagina,this.numPagina));
+        }else{
+            tabla.setModel(this.control.listar(text,this.totalPorPagina,1));
+        }
+        
+        //this.tabla.setModel(this.control.listar(text, totalPorPagina, numPagina));
         TableRowSorter orden = new TableRowSorter(this.tabla.getModel());
         this.tabla.setRowSorter(orden);
         ocultarColumnas();
         this.labelTotalRegistros.setText("Mostrando " + this.control.totalMostrados() + " de " + this.control.total());
 
     }
-    
-       private void cargarCategorias(){
-           DefaultComboBoxModel<Categoria> items = this.control.seleccionar();
+
+    private void cargarCategorias() {
+        DefaultComboBoxModel<Categoria> items = this.control.seleccionar();
         cboCategoria.setModel(items);
     }
 
@@ -667,7 +740,7 @@ public class InternalFrameArticulo extends javax.swing.JInternalFrame {
 
     private void limpiarFormulario() {
         this.textBuscar.setText("");
-   
+
         this.id = "";
         this.nombreAnt = "";
         this.btnGuardar.setText("Guardar");
@@ -676,12 +749,12 @@ public class InternalFrameArticulo extends javax.swing.JInternalFrame {
         this.textDescripcion.setText("");
         this.textPrecio.setText("");
         this.textStock.setText("");
-        this.imagen="";
-        this.imagenAnt="";
+        this.imagen = "";
+        this.imagenAnt = "";
         this.lblImagen.setIcon(null);
-        this.rutaDestino="";
-        this.rutaOrigen="";
-        this.accion="guardar";
+        this.rutaDestino = "";
+        this.rutaOrigen = "";
+        this.accion = "guardar";
 
     }
 
