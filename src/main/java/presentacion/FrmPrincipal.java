@@ -12,6 +12,8 @@ public class FrmPrincipal extends javax.swing.JFrame {
 
        private  InternalFrameCategoria frmCategorias;
          private  InternalFrameArticulo frmArticulo;
+         private InternalFrameRol frmRol;
+           private InternalFrameUsuario frmUsuario;
        
     /**
      * Creates new form FrmPrincipal
@@ -105,10 +107,20 @@ public class FrmPrincipal extends javax.swing.JFrame {
 
         menuItemRoles.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_R, java.awt.event.InputEvent.SHIFT_DOWN_MASK | java.awt.event.InputEvent.CTRL_DOWN_MASK));
         menuItemRoles.setText("Roles");
+        menuItemRoles.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuItemRolesActionPerformed(evt);
+            }
+        });
         menuAcceso.add(menuItemRoles);
 
         menuItemUsuarios.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_U, java.awt.event.InputEvent.CTRL_DOWN_MASK));
         menuItemUsuarios.setText("Usuarios");
+        menuItemUsuarios.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuItemUsuariosActionPerformed(evt);
+            }
+        });
         menuAcceso.add(menuItemUsuarios);
 
         menuBar.add(menuAcceso);
@@ -150,6 +162,21 @@ public class FrmPrincipal extends javax.swing.JFrame {
        desktopPane.add(frmArticulo);
         frmArticulo.setVisible(true);
     }//GEN-LAST:event_menuItemArticulosActionPerformed
+
+    private void menuItemRolesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuItemRolesActionPerformed
+        // TODO add your handling code here:
+        
+            frmRol  =  new InternalFrameRol();
+       desktopPane.add(frmRol);
+        frmRol.setVisible(true);
+    }//GEN-LAST:event_menuItemRolesActionPerformed
+
+    private void menuItemUsuariosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuItemUsuariosActionPerformed
+        // TODO add your handling code here:
+         frmUsuario  =  new InternalFrameUsuario();
+       desktopPane.add(frmUsuario);
+        frmUsuario.setVisible(true);
+    }//GEN-LAST:event_menuItemUsuariosActionPerformed
 
     /**
      * @param args the command line arguments

@@ -6,14 +6,12 @@ package datos;
 
 import database.Conector;
 import entidades.Articulo;
-import entidades.Categoria;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
 
 /**
