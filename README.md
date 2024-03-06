@@ -6,8 +6,8 @@
   
    Login
 
-  ![preview img](/archivo/login.png)
+  ![preview img](/archivos/login.png)
   
    Principal
 
-  ![preview img](/archivo/principal.png)
+  ![preview img](/archivos/principal.png)
