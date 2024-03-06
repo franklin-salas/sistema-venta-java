@@ -16,7 +16,7 @@ import javax.swing.table.DefaultTableModel;
  */
 public class CategoriaControl {
   private final CategoriaDAO datos;
-    private Categoria obj;
+    private final Categoria obj;
     private DefaultTableModel modeloTabla;
     public int registrosMostrados;
     

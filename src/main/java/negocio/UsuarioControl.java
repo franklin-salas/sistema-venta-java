@@ -85,6 +85,24 @@ public class UsuarioControl {
         }
         return this.modeloTabla;
     }
+    
+      public String login(String email,String clave){
+        String resp="0";
+        Usuario usu=this.datos.login(email,this.encriptar(clave));
+        
+            if (usu!=null && usu.isActivo()){
+                Session.usuarioId=usu.getId();
+                Session.rolId=usu.getRolId();
+                Session.rolNombre=usu.getRolNombre();
+                Session.usuarioNombre=usu.getNombre();
+                Session.usuarioEmail=usu.getEmail();
+                resp="1";
+            }else{
+                resp="Verificar los datos de usuario.";
+            }
+        
+        return resp;
+    }
      private String encriptar(String valor){
          MessageDigest md;
 	try {

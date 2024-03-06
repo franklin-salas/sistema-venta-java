@@ -14,7 +14,9 @@ public class FrmPrincipal extends javax.swing.JFrame {
          private  InternalFrameArticulo frmArticulo;
          private InternalFrameRol frmRol;
            private InternalFrameUsuario frmUsuario;
-       
+           private InternalFrameProveedor  frmProveedor;
+            private InternalFrameCliente  frmCliente;
+           
     /**
      * Creates new form FrmPrincipal
      */
@@ -23,6 +25,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
         initComponents();
        setLocationRelativeTo(null);
        setExtendedState(MAXIMIZED_BOTH);
+       this.cargarOpcionesMenu();
     }
 
     /**
@@ -48,8 +51,10 @@ public class FrmPrincipal extends javax.swing.JFrame {
         menuAcceso = new javax.swing.JMenu();
         menuItemRoles = new javax.swing.JMenuItem();
         menuItemUsuarios = new javax.swing.JMenuItem();
-        jMenu5 = new javax.swing.JMenu();
-        jMenu6 = new javax.swing.JMenu();
+        menuConsultas = new javax.swing.JMenu();
+        menuItemConsultaCompras = new javax.swing.JMenuItem();
+        menuItemConsultaVentas = new javax.swing.JMenuItem();
+        menuSalir = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -85,6 +90,11 @@ public class FrmPrincipal extends javax.swing.JFrame {
 
         menuItemProveedores.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_P, java.awt.event.InputEvent.ALT_DOWN_MASK));
         menuItemProveedores.setText("Proveedores");
+        menuItemProveedores.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuItemProveedoresActionPerformed(evt);
+            }
+        });
         menuCompras.add(menuItemProveedores);
 
         menuBar.add(menuCompras);
@@ -94,6 +104,11 @@ public class FrmPrincipal extends javax.swing.JFrame {
 
         menuItemClientes.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_C, java.awt.event.InputEvent.SHIFT_DOWN_MASK | java.awt.event.InputEvent.CTRL_DOWN_MASK));
         menuItemClientes.setText("Clientes");
+        menuItemClientes.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuItemClientesActionPerformed(evt);
+            }
+        });
         menuVentas.add(menuItemClientes);
 
         menuItemVentas.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_V, java.awt.event.InputEvent.ALT_DOWN_MASK));
@@ -125,13 +140,25 @@ public class FrmPrincipal extends javax.swing.JFrame {
 
         menuBar.add(menuAcceso);
 
-        jMenu5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/consultas.png"))); // NOI18N
-        jMenu5.setText("Consultas");
-        menuBar.add(jMenu5);
+        menuConsultas.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/consultas.png"))); // NOI18N
+        menuConsultas.setText("Consultas");
 
-        jMenu6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/salir.png"))); // NOI18N
-        jMenu6.setText("Salir");
-        menuBar.add(jMenu6);
+        menuItemConsultaCompras.setText("Consuta Compras");
+        menuConsultas.add(menuItemConsultaCompras);
+
+        menuItemConsultaVentas.setText("Consulta Ventas");
+        menuConsultas.add(menuItemConsultaVentas);
+
+        menuBar.add(menuConsultas);
+
+        menuSalir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/salir.png"))); // NOI18N
+        menuSalir.setText("Salir");
+        menuSalir.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                menuSalirMouseClicked(evt);
+            }
+        });
+        menuBar.add(menuSalir);
 
         setJMenuBar(menuBar);
 
@@ -178,6 +205,25 @@ public class FrmPrincipal extends javax.swing.JFrame {
         frmUsuario.setVisible(true);
     }//GEN-LAST:event_menuItemUsuariosActionPerformed
 
+    private void menuItemProveedoresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuItemProveedoresActionPerformed
+        // TODO add your handling code here:
+         frmProveedor  =  new InternalFrameProveedor();
+       desktopPane.add(frmProveedor);
+        frmProveedor.setVisible(true);
+    }//GEN-LAST:event_menuItemProveedoresActionPerformed
+
+    private void menuItemClientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuItemClientesActionPerformed
+        // TODO add your handling code here:
+               frmCliente  =  new InternalFrameCliente();
+       desktopPane.add(frmCliente);
+        frmCliente.setVisible(true);
+    }//GEN-LAST:event_menuItemClientesActionPerformed
+
+    private void menuSalirMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_menuSalirMouseClicked
+        // TODO add your handling code here:
+        System.exit(0);
+    }//GEN-LAST:event_menuSalirMouseClicked
+
     /**
      * @param args the command line arguments
      */
@@ -215,22 +261,60 @@ public class FrmPrincipal extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JDesktopPane desktopPane;
-    private javax.swing.JMenu jMenu5;
-    private javax.swing.JMenu jMenu6;
     private javax.swing.JMenu menuAcceso;
     private javax.swing.JMenu menuAlmacen;
     private javax.swing.JMenuBar menuBar;
     private javax.swing.JMenu menuCompras;
+    private javax.swing.JMenu menuConsultas;
     private javax.swing.JMenuItem menuItemArticulos;
     private javax.swing.JMenuItem menuItemCategorias;
     private javax.swing.JMenuItem menuItemClientes;
+    private javax.swing.JMenuItem menuItemConsultaCompras;
+    private javax.swing.JMenuItem menuItemConsultaVentas;
     private javax.swing.JMenuItem menuItemIngresos;
     private javax.swing.JMenuItem menuItemProveedores;
     private javax.swing.JMenuItem menuItemRoles;
     private javax.swing.JMenuItem menuItemUsuarios;
     private javax.swing.JMenuItem menuItemVentas;
+    private javax.swing.JMenu menuSalir;
     private javax.swing.JMenu menuVentas;
     // End of variables declaration//GEN-END:variables
 
+    
+       private void cargarOpcionesMenu(){
+           switch (negocio.Session.rolNombre) {
+               case "Administrador":
+                   menuAlmacen.setEnabled(true);
+                   menuCompras.setEnabled(true);
+                   menuVentas.setEnabled(true);
+                   menuAcceso.setEnabled(true);
+                   menuItemConsultaCompras.setEnabled(true);
+                   menuItemConsultaVentas.setEnabled(true);
+                   break;
+               case "Almacenero":
+                   menuAlmacen.setEnabled(true);
+                   menuCompras.setEnabled(true);
+                   menuVentas.setEnabled(false);
+                   menuAcceso.setEnabled(false);
+                   menuItemConsultaCompras.setEnabled(true);
+                   menuItemConsultaVentas.setEnabled(false);
+                   break;
+               case "Vendedor":
+                   menuAlmacen.setEnabled(false);
+                   menuCompras.setEnabled(false);
+                   menuVentas.setEnabled(true);
+                   menuAcceso.setEnabled(false);
+                   menuItemConsultaCompras.setEnabled(false);
+                   menuItemConsultaVentas.setEnabled(true);
+                   break;
+               default:
+                   menuAlmacen.setEnabled(false);
+                   menuCompras.setEnabled(false);
+                   menuVentas.setEnabled(false);
+                   menuAcceso.setEnabled(false);
+                   menuConsultas.setEnabled(false);
+                   break;
+           }
+    }
 
 }

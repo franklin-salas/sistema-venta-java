@@ -219,8 +219,8 @@ public class InternalFrameUsuario extends javax.swing.JInternalFrame {
                     .addComponent(btnAccion)
                     .addComponent(btnEditar))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 311, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel9)
                     .addComponent(cboNumPagina, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -292,15 +292,14 @@ public class InternalFrameUsuario extends javax.swing.JInternalFrame {
                         .addComponent(btnGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 74, Short.MAX_VALUE)
                         .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addComponent(textDireccion, javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(textNumDocumento, javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(cboTipoDocumento, javax.swing.GroupLayout.Alignment.LEADING, 0, 234, Short.MAX_VALUE)
-                        .addComponent(textNombre, javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(cboRol, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(textTelefono, javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(textClave, javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(textEmail, javax.swing.GroupLayout.Alignment.LEADING)))
+                    .addComponent(textDireccion, javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(textNumDocumento, javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(cboTipoDocumento, javax.swing.GroupLayout.Alignment.LEADING, 0, 234, Short.MAX_VALUE)
+                    .addComponent(textNombre, javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(cboRol, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(textTelefono, javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(textClave, javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(textEmail, javax.swing.GroupLayout.Alignment.LEADING))
                 .addContainerGap(189, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
@@ -341,11 +340,11 @@ public class InternalFrameUsuario extends javax.swing.JInternalFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(textClave, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel11))
-                .addGap(105, 105, 105)
+                .addGap(66, 66, 66)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnCancelar)
                     .addComponent(btnGuardar))
-                .addContainerGap(167, Short.MAX_VALUE))
+                .addContainerGap(104, Short.MAX_VALUE))
         );
 
         tabCrud.addTab("Registro", jPanel2);
@@ -362,9 +361,11 @@ public class InternalFrameUsuario extends javax.swing.JInternalFrame {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(tabCrud, javax.swing.GroupLayout.PREFERRED_SIZE, 609, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(tabCrud, javax.swing.GroupLayout.PREFERRED_SIZE, 507, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE))
         );
+
+        getAccessibleContext().setAccessibleName("Proveedor");
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
