@@ -68,7 +68,43 @@ public class ArticuloDAO implements CrudPaginadoInterface<Articulo> {
 
         return registros;
     }
+    public List<Articulo> listarArticuloVenta(String texto, int total, int pagina) {
 
+        List<Articulo> registros = new ArrayList<>();
+        try {
+            ps = con.conectar().prepareStatement(
+                     "SELECT a.id,a.categoria_id, c.nombre as categoria_nombre, a.codigo, a.nombre, a.precio_venta, a.stock, a.descripcion, a.imagen, a.activo "
+                    + "FROM articulo a inner join categoria c ON a.categoria_id=c.id "
+                    + "WHERE a.nombre LIKE ? AND a.stock>0 AND a.activo=true ORDER BY a.id ASC LIMIT ?,?");
+            ps.setString(1, "%" + texto + "%");
+            ps.setInt(2, total* (pagina - 1));
+            ps.setInt(3, total );
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                //System.out.println( rs.getString(5));
+          
+                 
+                 registros.add( new Articulo(
+                rs.getInt(1),rs.getInt(2),
+                        rs.getString(3),rs.getString(4),rs.getString(5),
+                        rs.getDouble(6),rs.getInt(7),rs.getString(8),rs.getString(9),rs.getBoolean(10)
+                )
+                );
+                
+                
+            }
+            rs.close();
+            ps.close();
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, e.getMessage());
+        } finally {
+            rs = null;
+            ps = null;
+            con.desconectar();
+        }
+
+        return registros;
+    }
     @Override
     public boolean insertar(Articulo obj) {
 
@@ -175,7 +211,7 @@ public class ArticuloDAO implements CrudPaginadoInterface<Articulo> {
         try {
             ps = con.conectar().prepareStatement("SELECT COUNT(*) AS total FROM  articulo ");
             rs = ps.executeQuery();
-            while (rs.next()) {
+            if (rs.next()) {
                 totalRegistros = rs.getInt("total");
             }
             rs.close();
@@ -217,5 +253,48 @@ public class ArticuloDAO implements CrudPaginadoInterface<Articulo> {
 
     }
 
+    public Articulo obtenerArticuloCodigoIngreso(String codigo) {
+        Articulo art=null;
+        try {
+            ps= con.conectar().prepareStatement("SELECT id,codigo,nombre,precio_venta,stock FROM articulo WHERE codigo=?");
+            ps.setString(1,codigo);
+            rs=ps.executeQuery();
+            
+            if (rs.next()){
+                art=new Articulo(rs.getInt(1),rs.getString(2),rs.getString(3),rs.getDouble(4),rs.getInt(5));
+            }
+            ps.close();
+            rs.close();
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, e.getMessage());
+        } finally{
+            ps=null;
+            rs=null;
+            con.desconectar();
+        }
+        return art;
+    }
+  //obtenerArticuloCodigoVenta
   
+        public Articulo obtenerArticuloCodigoVenta(String codigo) {
+        Articulo art=null;
+        try {
+            ps= con.conectar().prepareStatement("SELECT id,codigo,nombre,precio_venta,stock FROM articulo WHERE codigo=?  AND stock > 0 activo=true");
+            ps.setString(1,codigo);
+            rs=ps.executeQuery();
+            
+            if (rs.next()){
+                art=new Articulo(rs.getInt(1),rs.getString(2),rs.getString(3),rs.getDouble(4),rs.getInt(5));
+            }
+            ps.close();
+            rs.close();
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, e.getMessage());
+        } finally{
+            ps=null;
+            rs=null;
+            con.desconectar();
+        }
+        return art;
+    }
 }

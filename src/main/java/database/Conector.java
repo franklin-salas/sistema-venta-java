@@ -50,7 +50,7 @@ public class Conector {
     public  void desconectar(){
         
         try {
-            this.cadena.close();
+            //this.cadena.close();
             
             if (this.cadena != null && !this.cadena.isClosed()) {
                 this.cadena.close();

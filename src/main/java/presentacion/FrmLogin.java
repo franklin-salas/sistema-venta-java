@@ -62,6 +62,8 @@ public class FrmLogin extends javax.swing.JFrame {
         jLabel3.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel3.setText("Usuario");
         jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 170, 70, -1));
+
+        textUsuario.setText("ale@test.es");
         jPanel1.add(textUsuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 200, 330, 30));
 
         jLabel4.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
@@ -93,6 +95,8 @@ public class FrmLogin extends javax.swing.JFrame {
             }
         });
         jPanel1.add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 350, 140, 30));
+
+        textClave.setText("123456");
         jPanel1.add(textClave, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 270, 330, 30));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());

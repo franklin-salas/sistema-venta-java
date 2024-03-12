@@ -4,13 +4,11 @@
  */
 package presentacion;
 
-import entidades.Categoria;
 import entidades.Rol;
-import java.awt.Image;
+
 
 import javax.swing.DefaultComboBoxModel;
-import javax.swing.Icon;
-import javax.swing.ImageIcon;
+
 
 import javax.swing.JOptionPane;
 import javax.swing.ListSelectionModel;

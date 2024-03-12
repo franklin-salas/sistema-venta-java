@@ -6,6 +6,7 @@ package presentacion;
 
 
 import entidades.Rol;
+import javax.swing.JFrame;
 
 
 
@@ -21,7 +22,7 @@ import negocio.PersonaControl;
  *
  * @author lanister
  */
-public class InternalFrameProveedor extends javax.swing.JInternalFrame {
+public class InternalFrameProveedor extends javax.swing.JInternalFrame  {
 
     private final PersonaControl control;
     private String accion;
@@ -32,12 +33,13 @@ public class InternalFrameProveedor extends javax.swing.JInternalFrame {
     private int numPagina = 1;
     private boolean primeraCarga = true;
     private int totalRegistros;
+   
 
     public InternalFrameProveedor() {
         initComponents();
 
         this.control = new  PersonaControl();
-
+       
         this.accion = "NUEVO";
         this.tabCrud.setEnabledAt(1, false);
         this.btnEditar.setEnabled(false);
@@ -651,5 +653,7 @@ public class InternalFrameProveedor extends javax.swing.JInternalFrame {
        this.accion="guardar";
 
     }
+
+   
 
 }

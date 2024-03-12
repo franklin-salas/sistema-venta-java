@@ -80,6 +80,49 @@ public class ArticuloControl {
         return this.modeloTabla;
     }
     
+     public DefaultTableModel listarArticuloVenta(String texto,int total, int pagina ){
+        List<Articulo> lista=new ArrayList<>();
+        lista.addAll(datos.listarArticuloVenta(texto,total,pagina));
+        
+        String[] titulos={"Id","Categoria ID","Categoria","Código","Nombre","Precio","Stock","Descripción","Imagen","Estado"};
+            
+        this.modeloTabla=new DefaultTableModel(null,titulos){
+                @Override
+                public boolean isCellEditable(int row, int column) {
+                    return false; // Hacer que todas las celdas no sean editables
+                }
+            };
+        String estado;
+        String[] registro = new String[10];
+        
+        this.registrosMostrados=0;
+        for (Articulo item:lista){
+            if (item.isActivo()){
+                estado="Activo";
+            } else{
+                estado="Inactivo";
+            }
+          
+            
+             registro[0]=Integer.toString(item.getId());
+            registro[1]=Integer.toString(item.getCategoriaId());
+            registro[2]=item.getCategoriaNombre();
+            registro[3]=item.getCodigo();
+            registro[4]=item.getNombre();
+            registro[5]=Double.toString(item.getPrecio());
+            registro[6]=Integer.toString(item.getStock());
+            registro[7]=item.getDescripcion();
+            registro[8]=item.getImagen();
+            registro[9]=estado;
+           
+            this.modeloTabla.addRow(registro);
+            this.registrosMostrados=this.registrosMostrados+1;
+        }
+        
+        return this.modeloTabla;
+    }
+    
+     
     public String insertar(int categoriaId, String codigo, String nombre, double precio, int stock,String descripcion, String imagen){
        
         if (datos.existe(nombre)){

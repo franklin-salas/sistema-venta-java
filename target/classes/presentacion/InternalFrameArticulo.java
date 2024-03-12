@@ -177,7 +177,7 @@ public class InternalFrameArticulo extends javax.swing.JInternalFrame {
 
         jLabel10.setText("Total");
 
-        cboTotalPorPagina.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "2", "10", "20", "30", "40", "50", "100" }));
+        cboTotalPorPagina.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "10", "20", "30", "40", "50", "100" }));
         cboTotalPorPagina.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cboTotalPorPaginaActionPerformed(evt);
@@ -278,7 +278,7 @@ public class InternalFrameArticulo extends javax.swing.JInternalFrame {
 
         jLabel7.setText("Stock(*)");
 
-        textPrecio.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0.00"))));
+        textPrecio.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0.00", new java.text.DecimalFormatSymbols(java.util.Locale.US)))));
 
         jLabel8.setText("Imagen");
 

@@ -22,6 +22,11 @@ public class Persona {
     public Persona() {
     }
 
+    public Persona(int id, String nombre) {
+        this.id = id;
+        this.nombre = nombre;
+    }
+    
     public Persona(int id, String tipoPersona, String nombre, String tipoDocumento, String numDocumento, String direccion, String telefono, String email, boolean activo) {
         this.id = id;
         this.tipoPersona = tipoPersona;

@@ -16,7 +16,9 @@ public class FrmPrincipal extends javax.swing.JFrame {
            private InternalFrameUsuario frmUsuario;
            private InternalFrameProveedor  frmProveedor;
             private InternalFrameCliente  frmCliente;
-           
+            private InternalFrameIngreso  frmIngreso;
+            private InternalFrameVenta  frmVenta;
+            private InternalFrameConsultaVenta  frmConsultaVenta;
     /**
      * Creates new form FrmPrincipal
      */
@@ -86,6 +88,11 @@ public class FrmPrincipal extends javax.swing.JFrame {
 
         menuItemIngresos.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_I, java.awt.event.InputEvent.ALT_DOWN_MASK));
         menuItemIngresos.setText("Ingresos");
+        menuItemIngresos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuItemIngresosActionPerformed(evt);
+            }
+        });
         menuCompras.add(menuItemIngresos);
 
         menuItemProveedores.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_P, java.awt.event.InputEvent.ALT_DOWN_MASK));
@@ -113,6 +120,11 @@ public class FrmPrincipal extends javax.swing.JFrame {
 
         menuItemVentas.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_V, java.awt.event.InputEvent.ALT_DOWN_MASK));
         menuItemVentas.setText("Ventas");
+        menuItemVentas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuItemVentasActionPerformed(evt);
+            }
+        });
         menuVentas.add(menuItemVentas);
 
         menuBar.add(menuVentas);
@@ -147,6 +159,11 @@ public class FrmPrincipal extends javax.swing.JFrame {
         menuConsultas.add(menuItemConsultaCompras);
 
         menuItemConsultaVentas.setText("Consulta Ventas");
+        menuItemConsultaVentas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuItemConsultaVentasActionPerformed(evt);
+            }
+        });
         menuConsultas.add(menuItemConsultaVentas);
 
         menuBar.add(menuConsultas);
@@ -166,7 +183,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(desktopPane, javax.swing.GroupLayout.DEFAULT_SIZE, 662, Short.MAX_VALUE)
+            .addComponent(desktopPane, javax.swing.GroupLayout.DEFAULT_SIZE, 1208, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -223,6 +240,28 @@ public class FrmPrincipal extends javax.swing.JFrame {
         // TODO add your handling code here:
         System.exit(0);
     }//GEN-LAST:event_menuSalirMouseClicked
+
+    private void menuItemIngresosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuItemIngresosActionPerformed
+        // TODO add your handling code here:
+        frmIngreso  =  new InternalFrameIngreso(this);
+       desktopPane.add(frmIngreso);
+        frmIngreso.setVisible(true);
+    }//GEN-LAST:event_menuItemIngresosActionPerformed
+
+    private void menuItemVentasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuItemVentasActionPerformed
+        // TODO add your handling code here:
+        frmVenta  =  new InternalFrameVenta(this);
+       desktopPane.add(frmVenta);
+        frmVenta.setVisible(true);
+    }//GEN-LAST:event_menuItemVentasActionPerformed
+
+    private void menuItemConsultaVentasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuItemConsultaVentasActionPerformed
+        // TODO add your handling code here:
+
+        frmConsultaVenta  =  new InternalFrameConsultaVenta();
+       desktopPane.add(frmConsultaVenta);
+        frmConsultaVenta.setVisible(true);
+    }//GEN-LAST:event_menuItemConsultaVentasActionPerformed
 
     /**
      * @param args the command line arguments
